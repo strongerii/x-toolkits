@@ -1,7 +1,7 @@
 #ifndef _SH_TBITSTREAM_H_
 #define _SH_TBITSTREAM_H_
 
-#include "common.h"
+#include "xlib_type.h"
 
 #define DEF_MAX_PACKETNUM 					(8)
 #define DEF_MAX_PACKETSIZE					(DEF_MAX_PACKETNUM *sizeof(t_packet_info))

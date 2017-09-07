@@ -1,7 +1,7 @@
 #ifndef _SHMMAP_H_
 #define _SHMMAP_H_
 
-#include "common.h"
+#include "xlib_type.h"
 #include "sh_tbitstream.h"
 
 #ifdef __cplusplus

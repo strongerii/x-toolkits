@@ -1,7 +1,7 @@
 #ifndef _IPC_NET_HEADER_
 #define _IPC_NET_HEADER_
 
-#include "a5s_lib.h"
+#include "xlib_type.h"
 
 #ifdef __cplusplus
 extern "C"

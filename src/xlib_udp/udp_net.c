@@ -15,7 +15,6 @@
 #include <sys/ioctl.h>
 #include <errno.h>
 #include "ipc_net.h"
-#include "ipc_proc.h"
 
 
 //net socket related
@@ -25,14 +24,19 @@ int start_listen(int port)
 	int socketfd_listen = -1;
 	struct sockaddr_in server_addr;
 
-	if ((socketfd_listen = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+	if ((socketfd_listen = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
 		printf("socket failed %d !", socketfd_listen);
 		return -1;
 	}
+
 	if (setsockopt(socketfd_listen, SOL_SOCKET, SO_REUSEADDR, &flag, sizeof(flag)) < 0) {
 		printf("setsockopt failed %d !", socketfd_listen);
 		return -1;
 	}
+    if (setsockopt(socketfd_listen, SOL_SOCKET, SO_BROADCAST, &flag, sizeof(flag)) < 0) {
+        printf("setsockopt failed %d !", socketfd_listen);
+        return -1;
+    }
 
 	memset(&server_addr, 0, sizeof(server_addr));
 	server_addr.sin_family = AF_INET;
@@ -43,83 +47,33 @@ int start_listen(int port)
 		printf("bind failed %d !", socketfd_listen);
 		return -1;
 	}
-	
-	if (listen(socketfd_listen, 10) < 0) {
-		printf("listen failed %d !", socketfd_listen);
-		return -1;
-	}
 
-	printf("start listen ok ,Listen to port[%d]\n", port);
+	printf("start bind ok ,bind to port[%d]\n", port);
 	return socketfd_listen;
 }
 
 
-int handle_connection(int socketfd_listen)
+int send_buffer(int sock, char *buf, int len)
 {
-	int sockfd = -1;
-	struct sockaddr_in client_addr;
-	socklen_t length = sizeof(client_addr);
+    int sendRet;
+    int sndPktLen;
+    int remotePort = DS_SOCK_UDP_USR_SIDE_PORT;
 
-	if ((sockfd = accept(socketfd_listen, (struct sockaddr *)&client_addr, &length)) < 0) {
-		printf("accept failed %d\n", sockfd);
-		return -1;
-	}
-#if 0
-	struct timeval timeout;
-	timeout.tv_sec=1;    
-	timeout.tv_usec=500;
-	int result = 0;
-	result = setsockopt(sockfd,SOL_SOCKET,SO_RCVTIMEO,(char *)&timeout.tv_sec,sizeof(struct timeval));
-	if (result < 0)
-	{
-		printf("setsockopt SO_RCVTIMEO failed %d\n", sockfd);
-		return -1;
-	}
-	result = setsockopt(sockfd,SOL_SOCKET,SO_SNDTIMEO,(char *)&timeout.tv_sec,sizeof(struct timeval));
-	if (result < 0)
-	{
-		printf("setsockopt SO_SNDTIMEO failed %d\n", sockfd);
-		return -1;
-	}
-#endif
-	//printf("One connection[client ip=%s] is accept\n", inet_ntoa(client_addr.sin_addr));
-	return sockfd;
-}
+    struct sockaddr_in toAddr;
 
-int handle_disconnection(int sockfd)
-{
-	if(sockfd < 0)
-		return -1;
-	
-	close(sockfd);
-	sockfd = -1;
-	return 0;
-}
-#if 0 
-int send_packet(int sockfd, u8 *pBuffer, u32 size)
-{
-	int retv = send(sockfd, pBuffer, size, MSG_NOSIGNAL);
-	if ((u32)retv != size) {
-		//printf("send_packet returns %d.", retv);
-		return -1;
-	}
-	return 0;
-}
+    memset(&toAddr, 0, sizeof(toAddr));
+    toAddr.sin_family = AF_INET;
+    toAddr.sin_addr.s_addr = inet_addr("255.255.255.255");
+    toAddr.sin_port = htons(remotePort);
+    
+    sndPktLen = len > DS_SOCK_UDP_PKT_MIN_LEN ? len:DS_SOCK_UDP_PKT_MIN_LEN;
 
-int receive_packet(int sockfd,u8 *pBuffer, u32 size)
-{
-	int retv = recv(sockfd, pBuffer, size, MSG_WAITALL);
-	if (retv <= 0) {
-		if (retv == 0) {
-			//printf("receive_packet failed\n");
-			return -2;
-		}
-		//printf("receive_packet returns %d.", retv);
-		return -1;
-	}
-	return retv;
+    if( (sendRet = sendto(sock, buf, sndPktLen, 0, (struct sockaddr*)&toAddr, sizeof(toAddr))) != sndPktLen)
+    {
+        printf("sendto failed, return value: %d\t error no.: %d\r\n", sendRet, errno);
+    }
+    return sendRet;
 }
-#endif
 
 int setnonblock(int sockfd)
 {
@@ -194,8 +148,6 @@ _recv_loop:
 	return retv;	
 }
 
-
-
 int send_packet(int sockfd,u8 *pBuffer, u32 size)
 {
 	int nSend = 0;
@@ -239,4 +191,3 @@ int receive_packet(int sockfd,u8 *pBuffer, u32 size)
 	}
 	return nRecv;
 }
-
