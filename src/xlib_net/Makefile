@@ -7,6 +7,7 @@ include ../config.mak
 
 OBJS =	$(SRCDIR)iowatcher.o \
 		$(SRCDIR)ipc_net.o \
+		$(SRCDIR)ipc_net_ipv6.o \
 		$(BASEDIR)xlib_base64/base64.o \
 		$(SRCDIR)net_utils.o \
 		$(SRCDIR)net_info.o

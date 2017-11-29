@@ -1,4 +1,4 @@
-TOPDIR 			:= /home/simon/xlib/
+TOPDIR 			:= $(PWD)/../../
 BASEDIR			:= $(TOPDIR)src/
 INCLUDE_PATH 	:= $(TOPDIR)include
 LIBS_PATH		:= $(TOPDIR)libs
