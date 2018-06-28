@@ -24,11 +24,11 @@ s32 tbsb_init(shm_t *_pbsb)
 	_pbsb->_buf_next_read_offset = 0;
 	
 	//init headers info
-	_pbsb->_header_size = sizeof(t_header_info);//?
+	_pbsb->_header_size = sizeof(t_header_info);
 	
 	//init packs info
-	_pbsb->_max_packet_num = DEF_MAX_PACKETNUM;//?
-	_pbsb->_cur_packet_num = 0;//?
+	_pbsb->_max_packet_num = DEF_MAX_PACKETNUM;
+	_pbsb->_cur_packet_num = 0;
 	
 	//init shm_info
 	_pbsb->_shm_index_first = 0;

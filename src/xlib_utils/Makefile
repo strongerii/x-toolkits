@@ -5,8 +5,12 @@ endif
 
 include ../config.mak
 
-OBJS =	$(SRCDIR)log_info.o 
-		
+LOCAL_PATH 	:= $(shell pwd)
+
+CSRCS  		:= $(wildcard $(LOCAL_PATH)/*.c)
+
+OBJS       := $(CSRCS:%.c=%.o)
+
 OBJ_NAME = $(LIBS_PATH)/xlib_log.so
 
 CFLAGS	+= -shared -fPIC
@@ -23,12 +27,12 @@ CINCLUDE	+= -I$(SRCDIR)
 #CLIB	+= -Wl,-rpath=$(TOPDIR)libs
 #CLIB	+= -L$(TOPDIR)../libs
 
-CLIB    += 
+CLIB    +=
 
 TARGET	= $(OBJ_NAME)
 
 LINK=$(CC)
-	
-	
+
+
 include ../rules.mak
 	
