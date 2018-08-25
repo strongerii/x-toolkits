@@ -98,7 +98,6 @@ t_sink_item *get_sink_item_by_idx(int idx)
         }
     }
     pthread_mutex_unlock(&g_sink_io_mutex);
-    printf("++++ g_sink_item_num = %d\n", g_sink_item_num);
     return pItem;
 }
 void set_invalid_sink_id(int idx)

@@ -80,7 +80,7 @@ static void __sigstop(int signo)
     printf("catch signal %d\n", signo);
 
     printf("====exit comm server======\n");
-	
+
     exit(1);
 }
 
@@ -104,7 +104,6 @@ int main(int argc, char **argv)
         __sigstop(SIGTERM);
         return -1;
     }
-
 
     socket_listen = start_listen(DEF_COMM_SERVER_PORT);
     if (socket_listen < 0) {

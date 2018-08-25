@@ -10,7 +10,7 @@ CLIENT_MGR_HANDLE comm_linklist_init()
 {
     // init sink
     init_sink_items();
-	
+
     t_dlinklist *plst = create_dlinklist();
     if (plst) {
         return (CLIENT_MGR_HANDLE)plst;
@@ -21,8 +21,8 @@ CLIENT_MGR_HANDLE comm_linklist_init()
 
 void comm_linklist_uninit(CLIENT_MGR_HANDLE pHandle)
 {
-	destroy_dlinklist((t_dlinklist *)pHandle);
-	uninit_sink_items();
+    destroy_dlinklist((t_dlinklist *)pHandle);
+    uninit_sink_items();
 }
 
 int comm_linklist_insert(CLIENT_MGR_HANDLE pHandle, int socket_fd, struct sockaddr_in *pAddr)

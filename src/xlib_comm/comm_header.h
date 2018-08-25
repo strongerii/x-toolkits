@@ -61,7 +61,7 @@ struct LIST_TCP_REQ {
     struct LIST_TCP_REQ *Next;
 };
 
-typedef struct COMM_MANAGER{
+typedef struct COMM_MANAGER {
     int socket_fd;
     fd_set FdSet;
     int main_loop_exit;

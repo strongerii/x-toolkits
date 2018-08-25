@@ -4,16 +4,18 @@ ifndef SRCDIR
 endif
 
 include ../config.mak
+debug ?= yes
+OBJS =	$(SRCDIR)utils_shm.o \
+		$(SRCDIR)utils_shm_hE.o \
+		$(SRCDIR)utils_fifo.o \
+		$(SRCDIR)comm_debug.o
 
-OBJS =	$(SRCDIR)shmmap.o \
-		$(SRCDIR)sh_tbitstream.o
-
-OBJ_NAME = $(LIBS_PATH)/lib_shmmap.so
+OBJ_NAME = $(LIBS_PATH)/lib_fifo.so
 
 CFLAGS	+= -shared -fPIC
 
 ifeq ($(debug),yes)
-CFLAGS	+= -Wall -O2 -Os -g
+CFLAGS	+= -Wall -g -ggdb3
 else
 CFLAGS	+= -Wall -O2 -Os
 endif
@@ -24,7 +26,7 @@ CINCLUDE	+= -I$(SRCDIR)
 #CLIB	+= -Wl,-rpath=$(TOPDIR)libs
 #CLIB	+= -L$(TOPDIR)../libs
 
-CLIB    += -lpthread
+CLIB	+= -lpthread
 
 TARGET	= $(OBJ_NAME)
 
