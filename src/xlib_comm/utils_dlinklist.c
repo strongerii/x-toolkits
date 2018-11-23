@@ -5,11 +5,11 @@
 
 #include "utils_dlinklist.h"
 
-#define DEF_DISABLE_LOCK
+#define _DISABLE_LOCK
 
 static int __initlock(t_dlinklist *plst)
 {
-#ifndef DEF_DISABLE_LOCK
+#ifndef _DISABLE_LOCK
     if (NULL == plst) {
         return -1;
     }
@@ -22,7 +22,7 @@ static int __initlock(t_dlinklist *plst)
 
 static int __uninitlock(t_dlinklist *plst)
 {
-#ifndef DEF_DISABLE_LOCK
+#ifndef _DISABLE_LOCK
     if (NULL == plst) {
         return -1;
     }
@@ -35,7 +35,7 @@ static int __uninitlock(t_dlinklist *plst)
 
 static int __lock(t_dlinklist *plst)
 {
-#ifndef DEF_DISABLE_LOCK
+#ifndef _DISABLE_LOCK
     if (NULL == plst) {
         return -1;
     }
@@ -49,7 +49,7 @@ static int __lock(t_dlinklist *plst)
 
 static int __unlock(t_dlinklist *plst)
 {
-#ifndef DEF_DISABLE_LOCK
+#ifndef _DISABLE_LOCK
     if (NULL == plst) {
         return -1;
     }

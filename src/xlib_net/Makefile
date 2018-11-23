@@ -5,14 +5,17 @@ endif
 
 include ../config.mak
 
-OBJS =	$(SRCDIR)iowatcher.o \
-		$(SRCDIR)ipc_net.o \
-		$(SRCDIR)ipc_net_ipv6.o \
-		$(BASEDIR)xlib_base64/base64.o \
-		$(SRCDIR)net_utils.o \
-		$(SRCDIR)net_info.o
-		
-		
+SRCS = $(wildcard *.c)
+OBJS = $(SRCS:%.c=%.o)
+
+# OBJS =	$(SRCDIR)iowatcher.o \
+# 		$(SRCDIR)ipc_net.o \
+# 		$(SRCDIR)ipc_net_ipv6.o \
+# 		$(BASEDIR)xlib_base64/base64.o \
+# 		$(SRCDIR)net_utils.o \
+# 		$(SRCDIR)net_info.o
+
+
 OBJ_NAME = $(LIBS_PATH)/xlib_net.so
 
 CFLAGS	+= -shared -fPIC
@@ -35,7 +38,6 @@ CLIB    += -lpthread
 TARGET	= $(OBJ_NAME)
 
 LINK=$(CC)
-	
-	
+
+
 include ../rules.mak
-	

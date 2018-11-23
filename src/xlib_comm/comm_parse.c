@@ -338,23 +338,23 @@ void comm_fd_isset(COMM_MANAGER_S *pCommCtx)
 }
 int comm_parse_creat(COMM_MANAGER_S *pCommCtx)
 {
-	if (NULL == pCommCtx) {
-		return -1;
-	}
+    if (NULL == pCommCtx) {
+        return -1;
+    }
 
-	pCommCtx->client_mgr_handle = comm_linklist_init();
+    pCommCtx->client_mgr_handle = comm_linklist_init();
     if (NULL == pCommCtx->client_mgr_handle) {
         printf("comm_linklist_init failed.\n");
         return -1;
     }
 
-	return 0;
+    return 0;
 }
 
 void comm_parse_destory(COMM_MANAGER_S *pCommCtx)
 {
-	if (NULL == pCommCtx) {
-		return;
-	}
-	comm_linklist_uninit(pCommCtx->client_mgr_handle);
+    if (NULL == pCommCtx) {
+        return;
+    }
+    comm_linklist_uninit(pCommCtx->client_mgr_handle);
 }

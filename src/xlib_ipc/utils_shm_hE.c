@@ -196,6 +196,18 @@ s32 shm_multi_read_sync(multi_shm_t *pbsb, u32 *pcur_read_index, u32 *pcur_packe
 
     return result;
 }
+s32 shm_multi_get_current_idx(multi_shm_t *pbsb, u32 *pcur_read_index, u32 *pcur_packet_index)
+{
+    if (NULL == pbsb || NULL == pcur_read_index || NULL == pcur_packet_index) {
+        return ERROR_NORMAL;
+    }
+    t_multi_packet_info *_packet_addr = (t_multi_packet_info *)((u8 *)pbsb + pbsb->_buf_packet_offset);
+
+    *pcur_read_index = pbsb->_cur_write_index;
+    *pcur_packet_index = _packet_addr[pbsb->_cur_write_index]._packet_idx;
+
+    return 0;
+}
 s32 shm_mutil_read_one_packet(multi_shm_t *pbsb, u8 *buffer_addr, s32 packet_size, u32 *pcur_read_index, u32 *pcur_packet_index)
 {
     int r = 0;
